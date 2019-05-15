@@ -49,4 +49,14 @@ $app->group('/api/v1', function(){
 
 	});
 
+	#remove produtos para determinado id
+	$this->get('/produtos/remove/{id}', function($request, $response, $args){#args é um array de valores ou um dicionario
+		#var_dump($args);
+		//validar
+		$produto = Produto::FindOrFail($args['id']);
+		//caso sim ..
+		$produto->delete();
+		return $response->withJson( $produto );
+
+	});	
 });
