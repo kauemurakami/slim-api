@@ -22,6 +22,9 @@ return [
             'prefix' => '',
         ],
 
+        // Secret
+        'secretKey' => '0501a9f3742e65abb2cc19cd0b182cd2133c983d',
+        
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',
