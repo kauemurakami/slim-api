@@ -15,10 +15,9 @@ $app->post('/api/token', function($request, $response){
 	$email = $dados['email'] ?? null;
 	$senha = $dados['senha'] ?? null;
 
-	var_dump($email , $senha);
-	$usuario = Usuario::where('email', $dados['email'])->first();
+	$usuario = Usuario::where('email', $email)->first();
 
-	if( !is_null($usuario) && (md5($senha) == $usuario->senha ) ){
+	if( !is_null($usuario) && (md5($senha) === $usuario->senha ) ){
 
 		//gerar token
 		$secretKey   = $this->get('settings')['secretKey'];
@@ -31,9 +30,7 @@ $app->post('/api/token', function($request, $response){
 	}
 
 	return $response->withJson([
-		'status' => 'erro',
-		'usuario email' => $usuario->email,
-		'senha' => (md5($usuario->senha)),
+		'status' => 'erro'
 	]);
 
 });
