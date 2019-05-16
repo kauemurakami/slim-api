@@ -1,8 +1,9 @@
 <?php
 // Application middleware
+#Slim\Middleware\JwtAuthentication
 
 // e.g: $app->add(new \Slim\Csrf\Guard);
-$app->add(new Slim\Middleware\JwtAuthentication ([
+$app->add(new Tuupola\Middleware\JwtAuthentication([
     "regexp" => "/(.*)/",
     "path" => "/api", /* or ["/api", "/admin"] */
     "ignore" => ["/api/token","/public/api/token","/token"],
