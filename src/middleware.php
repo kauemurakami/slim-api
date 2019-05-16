@@ -1,17 +1,18 @@
 <?php
-# registra middlwers
-use Slim\App;
+// Application middleware
 
-# Autenticação sempre primeiro
-# processo feito a cada nova requisição
-$app->add();
+// e.g: $app->add(new \Slim\Csrf\Guard);
+$app->add(new Slim\Middleware\JwtAuthentication ([
+    "regexp" => "/(.*)/",
+    "path" => "/api", /* or ["/api", "/admin"] */
+    "ignore" => ["/api/token","/public/api/token","/token"],
+    "secret" => $container->get('settings')['secretKey']
+]));
 
-
-# adiciona middlwares a acada requisiçao o envio de cabeçalhos para quem esta solicitando recursos da nossa api
 $app->add(function ($req, $res, $next) {
     $response = $next($req, $res);
     return $response
-            ->withHeader('Access-Control-Allow-Origin', '*') # quais sites farão as http://mysite' 
-            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')# cabeçalhos padrões
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });

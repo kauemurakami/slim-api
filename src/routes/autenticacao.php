@@ -7,29 +7,30 @@ use App\Models\Usuario;
 use \Firebase\JWT\JWT;
 
 
-
-// Rotas para geração de token p; isso devemos solicitar alguns dados
+// Rotas para geração de token
 $app->post('/api/token', function($request, $response){
-	# recuperando os dados enviados via post
+
 	$dados = $request->getParsedBody();
 
 	$email = $dados['email'] ?? null;
 	$senha = $dados['senha'] ?? null;
 
-	$usuario = Usuario::where('email', $email)->first(); # retorna o primeiro resultado
-	if (!is_null($usuario) && (md5($senha) == $usuario->senha )){
-		# entao passou na validação e geraremos o token
+	$usuario = Usuario::where('email', $email)->first();
 
-		# secret key utilizada para criptografar e decriptografar
-		$secretKey = $this->get('settings')['secretKey'];
-		$tokenAccess = JWT::encode($usuario , $secretKey); # utilizando o método da classe JWT encode
+	if( !is_null($usuario) && (md5($senha) === $usuario->senha ) ){
 
-		return $response->withJson(['chave'=>$tokenAccess]);
+		//gerar token
+		$secretKey   = $this->get('settings')['secretKey'];
+		$chaveAcesso = JWT::encode($usuario, $secretKey);
+
+		return $response->withJson([
+			'chave' => $chaveAcesso
+		]);
+
 	}
 
 	return $response->withJson([
-		'status'=>'erro', 
+		'status' => 'erro'
 	]);
+
 });
-	
-	
