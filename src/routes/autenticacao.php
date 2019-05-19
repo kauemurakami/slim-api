@@ -17,7 +17,7 @@ $app->post('/api/token', function($request, $response){
 
 	$usuario = Usuario::where('email', $email)->first();
 
-	if( !is_null($usuario) && (md5($senha) === $usuario->senha ) ){
+	if( !is_null($usuario) && (md5($senha) == $usuario->senha ) ){
 
 		//gerar token
 		$secretKey   = $this->get('settings')['secretKey'];

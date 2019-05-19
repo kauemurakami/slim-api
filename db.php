@@ -51,3 +51,18 @@ $db->table($tabela)->insert([
 	'created_at' => '2019-01-10',
 	'updated_at' => '2019-02-01'
 ]);
+
+//Cria tabela
+$tabela = 'usuarios';
+$schema->dropIfExists($tabela);
+$schema->create($tabela, function($table){
+	$table->increments('id');
+	$table->string('email', 100);
+	$table->string('senha'); //converter para md5 no bd
+	$table->timestamps();
+
+});
+$db->table($tabela)->insert([
+	'email' => 'testando@gmail.com',
+	'senha' => '12345'
+]);
